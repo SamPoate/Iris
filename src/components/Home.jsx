@@ -1,22 +1,45 @@
 import React, { Component } from 'react';
+import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
+import MessageList from './MessageList';
+import SendMessageForm from './SendMessageForm';
 
-const DUMMY_DATA = [
-  {
-    senderId: 'perborgen',
-    text: "who'll win?",
-  },
-  {
-    senderId: 'janedoe',
-    text: "who'll win?",
-  },
-];
+const instanceLocator = 'v1:us1:fd274c34-0b78-4fd9-a1fe-fedca9a94738';
+
+const testToken = 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/fd274c34-0b78-4fd9-a1fe-fedca9a94738/token';
+
+const userId = 'Bob';
+
+const roomId = '9d15c884-e1b1-48ac-882a-54d4ed05d96f';
 
 class Home extends Component {
   constructor() {
     super();
     this.state = {
-      messages: DUMMY_DATA,
+      messages: [],
     };
+  }
+
+  componentDidMount() {
+    const chatManager = new ChatManager({
+      instanceLocator,
+      userId,
+      tokenProvider: new TokenProvider({
+        url: testToken,
+      }),
+    });
+
+    chatManager.connect().then((currentUser) => {
+      currentUser.subscribeToRoom({
+        roomId,
+        hooks: {
+          onNewMessage: (message) => {
+            this.setState({
+              messages: [...this.state.messages, message],
+            });
+          },
+        },
+      });
+    });
   }
 
   render() {
@@ -32,33 +55,3 @@ class Home extends Component {
   }
 }
 export default Home;
-
-class MessageList extends React.Component {
-  render() {
-    return (
-      <ul className="message-list">
-        {this.props.messages.map((message) => (
-          <li key={message.id}>
-            <div>{message.senderId}</div>
-            <div>{message.text}</div>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
-
-class SendMessageForm extends React.Component {
-  render() {
-    return (
-      <form className="send-message-form">
-        <input
-                    // onChange={this.handleChange}
-                    // value={this.state.message}
-          placeholder="Type your message and hit ENTER"
-          type="text"
-        />
-      </form>
-    );
-  }
-}
