@@ -3,7 +3,10 @@
     "extends": ["airbnb"],
     "rules": {
         "no-unused-vars": 0,
+        "no-unescaped-entities": 0,
+        "no-console": 0,
         "react/destructuring-assignment": 0,
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "react/no-unused-state": 0
     }
 }

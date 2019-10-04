@@ -57,11 +57,7 @@ module.exports = {
                         loader: 'style-loader'
                     },
                     {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true
-                        }
+                        loader: 'css-loader'
                     },
                     {
                         loader: 'sass-loader'
@@ -84,5 +80,10 @@ module.exports = {
         compress: true,
         port: 9000,
         hot: true
+    },
+    node: {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
     }
 };

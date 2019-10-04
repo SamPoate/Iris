@@ -33,9 +33,10 @@ class Home extends Component {
         roomId,
         hooks: {
           onNewMessage: (message) => {
-            this.setState({
-              messages: [...this.state.messages, message],
-            });
+            this.setState((prevState) => ({
+              ...prevState,
+              messages: message,
+            }));
           },
         },
       });
