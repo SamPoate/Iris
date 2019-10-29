@@ -1,1 +1,1 @@
-https://pusher.com/tutorials/messaging-react-chatkit
+https://pusher.com/docs/chatkit/guides/react-one-to-one
